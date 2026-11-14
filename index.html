@@ -208,15 +208,11 @@ header.topo .wrap::before{
   color:var(--tinta);
 }
 .intro{
-  max-width:100%;
+  max-width:44ch;
   margin:8px auto 14px;
   color:var(--tinta-suave);
   font-weight:500;
-  font-size:clamp(.66rem,2.35vw,1rem);
-}
-.intro-linha{
-  display:inline-block;
-  white-space:nowrap;
+  font-size:clamp(.92rem,2.2vw,1.02rem);
 }
 .intro-destaque{
   display:inline-block;
@@ -1088,7 +1084,7 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
     <div class="hero-card">
       <img class="logo" src="img/logo.jpg" alt="Melodia · Mel e própolis" width="1400" height="781">
       <p class="lema">Saúde e sabor no ritmo da natureza</p>
-      <p class="intro"><span class="intro-destaque">Loja de produtos das abelhas</span><br><span class="intro-linha">As flores se anunciam, as abelhas as transformam e nós te entregamos!</span></p>
+      <p class="intro"><span class="intro-destaque">Loja de produtos das abelhas</span><br>As flores se anunciam,<br>as abelhas as transformam e nós te entregamos!</p>
       <div class="hero-acoes">
         <a class="botao b-mel" href="#produtos">Escolher produtos</a>
         <a class="botao b-zap" id="hero-zap" href="#" target="_blank" rel="noopener">Tirar dúvida no WhatsApp</a>
@@ -1185,7 +1181,6 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
       </div>
       <form id="form" novalidate>
         <div class="campo"><label for="nome">Seu nome</label><input id="nome" autocomplete="name" placeholder="Como podemos te chamar?"></div>
-        <div class="campo"><label for="cupom">Cupom de desconto (opcional)</label><input id="cupom" placeholder="Digite seu cupom, se tiver"></div>
         <div class="campo">
           <label for="obs" id="obs-label">Endereço ou observação (opcional)</label>
           <textarea id="obs" placeholder="Rua, número, bairro, ponto de referência, entrega ou retirada"></textarea>
@@ -1289,7 +1284,6 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
     if (salvo.carrinho) carrinho = salvo.carrinho;
     if (Array.isArray(salvo.partituraNotas)) partituraNotas = salvo.partituraNotas;
     if (salvo.nome) $("nome").value = salvo.nome;
-    if (salvo.cupom) $("cupom").value = salvo.cupom;
     if (salvo.obs) $("obs").value = salvo.obs;
   } catch(e){}
 
@@ -1299,7 +1293,6 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
         carrinho: carrinho,
         partituraNotas: partituraNotas,
         nome: $("nome").value,
-        cupom: $("cupom").value,
         obs: $("obs").value
       }));
     } catch(e){}
@@ -1566,14 +1559,13 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
     var ls = linhas(), total = 0, t = ["Olá! Quero fazer um pedido na " + LOJA.nome + ":", ""];
     ls.forEach(function(l){ total += l.sub; t.push("• " + l.q + " × " + l.p.nome + " — " + brl(l.sub)); });
     t.push("", "Total dos produtos: " + brl(total), "");
-    var nome = $("nome").value.trim(), cupom = $("cupom").value.trim(), obs = $("obs").value.trim();
+    var nome = $("nome").value.trim(), obs = $("obs").value.trim();
     if (nome) t.push("Nome: " + nome);
-    if (cupom) t.push("Cupom de desconto: " + cupom);
     if (obs) t.push("Observação: " + obs);
     return t.join("\n");
   }
 
-  ["nome","cupom","obs"].forEach(function(id){
+  ["nome","obs"].forEach(function(id){
     $(id).addEventListener("input", salvarEstado);
     $(id).addEventListener("change", salvarEstado);
   });
@@ -1581,7 +1573,12 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
   $("form").addEventListener("submit", function(e){
     e.preventDefault();
     if (!linhas().length) return;
-    window.open(zapBase + "?text=" + encodeURIComponent(mensagem()), "_blank", "noopener");
+    var url = zapBase + "?text=" + encodeURIComponent(mensagem());
+    window.open(url, "_blank", "noopener");
+    carrinho = {};
+    partituraNotas = [];
+    atualizar();
+    mostrarToast("Pedido enviado! Sacola limpa.");
   });
 
   $("copiar").addEventListener("click", function(){
