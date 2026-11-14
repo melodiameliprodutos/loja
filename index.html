@@ -208,11 +208,15 @@ header.topo .wrap::before{
   color:var(--tinta);
 }
 .intro{
-  max-width:44ch;
+  max-width:100%;
   margin:8px auto 14px;
   color:var(--tinta-suave);
   font-weight:500;
   font-size:clamp(.92rem,2.2vw,1.02rem);
+}
+.quebra-cel{display:none}
+@media (max-width:768px){
+  .quebra-cel{display:inline}
 }
 .intro-destaque{
   display:inline-block;
@@ -1084,7 +1088,7 @@ footer strong,.contatos a,.atitudes li{color:var(--tinta)}
     <div class="hero-card">
       <img class="logo" src="img/logo.jpg" alt="Melodia · Mel e própolis" width="1400" height="781">
       <p class="lema">Saúde e sabor no ritmo da natureza</p>
-      <p class="intro"><span class="intro-destaque">Loja de produtos das abelhas</span><br>As flores se anunciam,<br>as abelhas as transformam,<br>nós te entregamos!</p>
+      <p class="intro"><span class="intro-destaque">Loja de produtos das abelhas</span><br>As flores se anunciam,<br class="quebra-cel"> as abelhas as transformam,<br class="quebra-cel"> nós te entregamos!</p>
       <div class="hero-acoes">
         <a class="botao b-mel" href="#produtos">Escolher produtos</a>
         <a class="botao b-zap" id="hero-zap" href="#" target="_blank" rel="noopener">Tirar dúvida no WhatsApp</a>
